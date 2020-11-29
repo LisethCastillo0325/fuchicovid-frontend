@@ -4,7 +4,14 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./views/views.module').then(mod => mod.ViewsModule) },
+  {
+    path: 'tipo-documento',
+    loadChildren: () => import('./modules/tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
