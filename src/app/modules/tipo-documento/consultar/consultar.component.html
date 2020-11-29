@@ -8,17 +8,16 @@
 
         <div class="card">
           <div class="card-header">
-            <button class="btn btn-primary float-right">Crear Nuevo</button>
+            <a [routerLink]="['/','tipo-documento','crear']" class="btn btn-primary float-right">Crear Nuevo</a>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
             <div>
               <form autocomplete="off" [formGroup]="forma" (ngSubmit)="search()">
                 <div class="form-row">
-                  <div class="col-md-1 mb-3">
-                    <label>Nombre</label>
-                  </div>
                   <div class="col-md-6 mb-3">
+                    <label>Nombre</label>
+
                     <input
                       type="text"
                       class="form-control form-control-sm"
@@ -26,23 +25,33 @@
                       [value]="forma.get('nombre').value | uppercase"
                       formControlName="nombre">
                   </div>
-                  <div class="col-md-5 mb-3">
-                    <button class="btn btn-block btn-outline-primary btn-sm" type="submit">Buscar</button>
+                  <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                      <label>Estado</label>
+                      <select
+                        class="form-control form-control-sm select2"
+                        placeholder="Estado"
+                        formControlName="estado"
+                        >
+                        <option *ngFor="let item of dataSourceEstados"  [value]="item.value"> {{ item.text }}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-
+                <button class="btn btn-block btn-outline-primary btn-sm" type="submit">Buscar</button>
               </form>
             </div>
             <hr>
 
             <ng-container *ngIf="(tiposDocumentos.length > 0); else DataNotFound">
               <div>
-                  <table  class="table table-bordered table-striped">
+                  <table  class="table  table-striped">
                     <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>#</th>
                       <th>Nombre</th>
-                      <th>Acciones</th>
+                      <th>Estado</th>
+                      <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,13 +59,37 @@
                         <th scope="row"> {{ tipoDocumento.id }} </th>
                         <td>{{ tipoDocumento.nombre }}</td>
                         <td>
-                          <div class="text-center">
-                            <a [routerLink]="['/','cliente','editar-tipo-documento', tipoDocumento.id]"
+                          <span *ngIf="tipoDocumento.estado == 'ACTIVO'" class="badge badge-success">{{ tipoDocumento.estado }}</span>
+                          <span *ngIf="tipoDocumento.estado == 'INACTIVO'" class="badge badge-danger">{{ tipoDocumento.estado }}</span>
+                        </td>
+                        <td>
+                          <div class="project-actions text-right " >
+
+                            <a  [routerLink]="['/','tipo-documento','editar', tipoDocumento.id]"
                               data-toggle="tooltip"
                               title="Editar tipo de documento"
-                              data-placement="top"  >
-                              <i class="fa fa-edit"></i>
+                              class="btn btn-info btn-sm m-1">
+                              <i class="fas fa-pencil-alt"> </i>
+                              Editar
                             </a>
+                            <button
+                              *ngIf="tipoDocumento.estado == 'ACTIVO'"
+                              (click)="inactivateAndActivate(tipoDocumento)"
+                              data-toggle="tooltip"
+                              title="Inactivar tipo de documento"
+                              class="btn btn-danger btn-sm" >
+                              <i class="fas fa-minus-circle"> </i>
+                              Inactivar
+                            </button>
+                            <button
+                              *ngIf="tipoDocumento.estado == 'INACTIVO'"
+                              (click)="inactivateAndActivate(tipoDocumento)"
+                              data-toggle="tooltip"
+                              title="Inactivar tipo de documento"
+                              class="btn btn-success btn-sm" >
+                              <i class="fas fa-minus-circle"> </i>
+                              Activar
+                            </button>
                           </div>
                         </td>
                       </tr>

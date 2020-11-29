@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { CrearRoutingModule } from './crear-routing.module';
 import { CrearComponent } from './crear.component';
+import { SharedModule } from '../../../shared/shared.module';
 
 
 @NgModule({
   declarations: [CrearComponent],
   imports: [
     CommonModule,
-    CrearRoutingModule
+    CrearRoutingModule,
+    SharedModule
   ]
 })
 export class CrearModule { }

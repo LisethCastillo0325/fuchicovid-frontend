@@ -4,6 +4,8 @@ import { AlertMessagesService } from '../../../services/alert/alert-messages.ser
 import { constants } from '../../../../config/app.constants';
 import { TipoDocumento } from '../../../models/tipo-documento.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { DataSourceService } from '../../../services/data-source/data-source.service';
 
 @Component({
   selector: 'app-consultar',
@@ -13,6 +15,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ConsultarComponent implements OnInit {
 
   tiposDocumentos: TipoDocumento[] = [];
+
+  //source
+  dataSourceEstados: any[] = [];
 
   //form
   forma: FormGroup;
@@ -33,11 +38,12 @@ export class ConsultarComponent implements OnInit {
   isSearch: boolean = false;
 
 
-  constructor(private _tipoDocumento: TipoDocumentoService,
+  constructor(private _tipoDocumentoService: TipoDocumentoService,
               private _alertMessagesService: AlertMessagesService,
+              private _dataSourceService : DataSourceService,
               private fb: FormBuilder) {
                 this.createForm();
-
+                this.getSourceEstados();
               }
 
   ngOnInit(): void {
@@ -47,14 +53,19 @@ export class ConsultarComponent implements OnInit {
   createForm(){
     this.forma = this.fb.group({
       id: [''],
-      nombre: ['']
+      nombre: [''],
+      estado: ['']
     });
+  }
+
+  async getSourceEstados(){
+    this.dataSourceEstados = await this._dataSourceService.getDataSourceEstados();
   }
 
   getAll(isBtnSearch?:boolean){
 
     this._alertMessagesService.showMessageLoading();
-    this._tipoDocumento.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
+    this._tipoDocumentoService.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
       console.log(response);
       if(!response.ok){
         this._alertMessagesService.showMessage('error', response.message);
@@ -77,6 +88,42 @@ export class ConsultarComponent implements OnInit {
       this._alertMessagesService.closeMessage();
     });
 
+  }
+
+  inactivateAndActivate(tipoDocumento: TipoDocumento){
+    let mensaje : string;
+    if(tipoDocumento.estado == 'ACTIVO'){
+      mensaje = 'inactivar ';
+    }else{
+      mensaje = 'activar';
+    }
+
+    this._alertMessagesService.confirmationMessage('warning','', `Está seguro de ${mensaje} este registro?`,`Si, ${mensaje} `)
+      .then(result => {
+        if(result.isConfirmed){
+
+          if(tipoDocumento.estado == 'ACTIVO'){
+            tipoDocumento.estado = 'INACTIVO';
+          }else{
+            tipoDocumento.estado = 'ACTIVO';
+          }
+
+          this._tipoDocumentoService.inactivateAndActivate(tipoDocumento).subscribe(
+            response => {
+              if(response === null){
+                this._alertMessagesService.showMessage('error', 'se presentó un error en el api');
+              }else{
+                if(!response.ok){
+                  this._alertMessagesService.showMessage('error', response.message);
+                }else{
+                  let nameForm : string = this.forma.get('nombre').value;
+                  this._alertMessagesService.showMessage('success', response.message, nameForm.toUpperCase() , false, 2000);
+                }
+              }
+            }
+          );
+        }
+      });
   }
 
 

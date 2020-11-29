@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('./crear/crear.module').then(m => m.CrearModule)
       },
       {
+        path: 'editar/:id',
+        loadChildren: () => import('./crear/crear.module').then(m => m.CrearModule)
+      },
+      {
         path: 'consultar',
         loadChildren: () => import('./consultar/consultar.module').then(m => m.ConsultarModule)
       }

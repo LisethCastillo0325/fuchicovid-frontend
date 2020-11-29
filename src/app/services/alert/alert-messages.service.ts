@@ -31,6 +31,18 @@ export class AlertMessagesService {
     });
   }
 
+  confirmationMessage(icon : SweetAlertIcon, message: string, title:string, confirmButtonText:string, confirmButtonColor:string = '#3085d6', cancelButtonColor:string = '#d33'){
+    return Swal.fire({
+      title: title,
+      text: message,
+      icon: icon,
+      showCancelButton: true,
+      confirmButtonColor: confirmButtonColor,
+      cancelButtonColor: cancelButtonColor,
+      confirmButtonText: confirmButtonText
+    });
+  }
+
   closeMessage(){
     if(Swal.isVisible()){
       Swal.close();

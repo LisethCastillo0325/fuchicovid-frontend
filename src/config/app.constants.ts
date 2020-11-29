@@ -3,6 +3,7 @@ export const constants = {
     /**Rutas */
     tipoDocumento: 'api/tipo-identificacion/',
     tipoDocumentoPaginationFilter: 'api/tipo-identificacion/pagination-filters/',
+    tipoDocumentoActivarInactivar: 'api/tipo-identificacion/activar-inactivar/',
 
   },
    /**DataTable */

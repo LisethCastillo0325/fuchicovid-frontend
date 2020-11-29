@@ -1,1 +1,42 @@
-<p>crear works!</p>
+<app-content-header title="Tipo Documento"></app-content-header>
+
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">{{ formTitle }}</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form role="form" autocomplete="off" [formGroup]="forma" (ngSubmit)="save()" >
+            <div class="card-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nombre"
+                  required
+                  [value]="forma.get('nombre').value | uppercase"
+                  formControlName="nombre"
+                  [class.is-invalid]="isInvalidField('nombre')">
+                  <small *ngIf="validateField('name').show" class="text-danger"> {{ validateField('nombre').message }} </small>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button class="btn btn-primary float-right" type="submit">Grabar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+</section>
