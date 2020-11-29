@@ -7,7 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { ControlSidebarComponent } from './control-sidebar/control-sidebar/control-sidebar.component';
 import { ContentHeaderComponent } from './content-header/content-header.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 
 
@@ -25,6 +25,7 @@ import { DataTablesModule } from 'angular-datatables';
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     DataTablesModule
   ],
   exports: [
@@ -36,6 +37,7 @@ import { DataTablesModule } from 'angular-datatables';
     ContentHeaderComponent,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     DataTablesModule
   ]
 })
