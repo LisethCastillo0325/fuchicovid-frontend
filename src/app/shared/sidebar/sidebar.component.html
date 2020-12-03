@@ -81,6 +81,29 @@
           </ul>
         </li>
 
+        <li class="nav-item has-treeview menu-open">
+          <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Profesional de la salud
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a [routerLink]="['/', 'profesional-salud','consultar' ]" class="nav-link " routerLinkActive="active" >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Consultar</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/', 'profesional-salud', 'registrar']" class="nav-link" routerLinkActive="active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Registrar</p>
+              </a>
+            </li>
+          </ul>
+        </li>
 
       </ul>
     </nav>

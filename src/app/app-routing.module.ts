@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/funcionario-publico/funcionario-publico.module').then(m => m.FuncionarioPublicoModule)
   },
   {
+    path: 'profesional-salud',
+    loadChildren: () => import('./modules/profesional-salud/profesional-salud.module').then(m => m.ProfesionalSaludModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
   },

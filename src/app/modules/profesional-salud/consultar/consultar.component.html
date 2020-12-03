@@ -1,0 +1,163 @@
+<app-content-header title="Profesional de salud"></app-content-header>
+
+ <!-- Main content -->
+ <section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-header">
+            <a [routerLink]="['/','profesional-salud','registrar']" class="btn btn-primary float-right">Crear Nuevo</a>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div>
+              <form autocomplete="off" [formGroup]="forma" (ngSubmit)="search()">
+                <div class="form-row">
+                  <div class="col-md-6 mb-3">
+                    <label>Nombre</label>
+
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Nombre"
+                      [value]="forma.get('nombre').value | uppercase"
+                      formControlName="nombre">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                      <label>Estado</label>
+                      <select
+                        class="form-control form-control-sm select2"
+                        placeholder="Estado"
+                        formControlName="estado"
+                        >
+                        <option *ngFor="let item of dataSourceEstados"  [value]="item.value"> {{ item.text }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-block btn-outline-primary btn-sm" type="submit">Buscar</button>
+              </form>
+            </div>
+            <hr>
+
+            <ng-container *ngIf="(profesionalesSalud.length > 0); else DataNotFound">
+              <div>
+                  <table  class="table  table-striped">
+                    <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Nombre</th>
+                      <th>Numero de identificacion</th>
+                      <th>Tipo de identificacion</th>
+                      <th>Universidad</th>
+                      <th>EPS</th>
+                      <th>Estado</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let profesionalSalud of profesionalesSalud">
+                        <th scope="row"> {{ profesionalSalud.id }} </th>
+                        <td>{{ profesionalSalud.nombre }}</td>
+                        <td>{{ profesionalSalud.numeroIdentificacion}}</td>
+                        <td>{{ profesionalSalud.idTipoIdentificacion['nombre']}}</td>
+                        <td>{{ profesionalSalud.idUniversidad['nombre']}}</td>
+                        <td>{{ profesionalSalud.idEps['nombre']}}</td>
+                        <td>
+                          <span *ngIf="profesionalSalud.estado == 'ACTIVO'" class="badge badge-success">{{ profesionalSalud.estado }}</span>
+                          <span *ngIf="profesionalSalud.estado == 'INACTIVO'" class="badge badge-danger">{{ profesionalSalud.estado }}</span>
+                        </td>
+                        <td>
+                          <div class="project-actions text-right " >
+
+                            <a  [routerLink]="['/','profesional-salud','editar', profesionalSalud.id]"
+                              data-toggle="tooltip"
+                              title="Editar funcionario"
+                              class="btn btn-info btn-sm m-1">
+                              <i class="fas fa-pencil-alt"> </i>
+                              Editar
+                            </a>
+                            <button
+                              *ngIf="profesionalSalud.estado == 'ACTIVO'"
+                              (click)="inactivateAndActivate(profesionalSalud)"
+                              data-toggle="tooltip"
+                              title="Inactivar funcionario"
+                              class="btn btn-danger btn-sm" >
+                              <i class="fas fa-minus-circle"> </i>
+                              Inactivar
+                            </button>
+                            <button
+                              *ngIf="profesionalSalud.estado == 'INACTIVO'"
+                              (click)="inactivateAndActivate(profesionalSalud)"
+                              data-toggle="tooltip"
+                              title="Inactivar funcionario"
+                              class="btn btn-success btn-sm" >
+                              <i class="fas fa-minus-circle"> </i>
+                              Activar
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <nav>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item" [class.disabled]="currentPage === 1" >
+                          <button type="button" class="page-link" (click)="changePage(1)" >
+                            Primero
+                          </button>
+                        </li>
+                        <!-- validar si habilitar o no -->
+                        <li class="page-item" [class.disabled]="currentPage === 1" >
+                            <button type="button" class="page-link" (click)="previousPage()" >
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Anterior</span>
+                            </button>
+                        </li>
+                        <!-- validar si mostrar o no -->
+                        <li class="page-item" *ngIf="currentPageGroup > 1">
+                          <button type="button"  class="page-link" (click)="previousPageGroup()" >...</button>
+                        </li>
+                        <!-- repetir -->
+                        <li class="page-item" [class.active]="item === currentPage" *ngFor="let item of arrayPagesNumbers">
+                            <button type="button" class="page-link" (click)="changePage(item)" >{{ item }}</button>
+                        </li>
+                        <!-- validar si mostrar o no -->
+                        <li class="page-item" *ngIf="currentPageGroup < totalPageGroups">
+                          <button type="button" class="page-link" (click)="nextPageGroup()"  >...</button>
+                        </li>
+                        <!-- validar si habilitar o no -->
+                        <li class="page-item" [class.disabled]="(currentPage === totalPages) || (totalPages===0)">
+                          <button type="button" class="page-link" (click)="nextPage()" >
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Siguiente</span>
+                          </button>
+                        </li>
+                        <li class="page-item" [class.disabled]="(currentPage === totalPages) || (totalPages===0)" >
+                          <button type="button" class="page-link" (click)="changePage(totalPages)" >
+                            Último
+                          </button>
+                        </li>
+                    </ul>
+                </nav>
+              </div>
+            </ng-container>
+            <ng-template #DataNotFound>
+              <div class="alert alert-info animated fadeIn" role="alert" *ngIf="isSearch">
+                <strong>¡Ups!</strong> No se encontraron registros con los filtros ingresados.
+              </div>
+            </ng-template>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+      </div>
+    </div>
+  </div>
+ </section>
+
+
