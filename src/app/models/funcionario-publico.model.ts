@@ -1,6 +1,6 @@
 import {Persona} from "./persona.model"
 export class FuncionarioPublico {
-  idPersona: number;
+  id: number;
   nombre: string;
   numeroIdentificacion:string;
   idTipoIdentificacion:number;

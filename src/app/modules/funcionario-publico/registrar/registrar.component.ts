@@ -78,6 +78,7 @@ export class RegistrarComponent implements OnInit {
       this._alertMessagesService.showMessage('error', response.message);
     }else{
       const funcionarioPublico = response.data;
+      console.log("cosas en registros",funcionarioPublico);
       this.forma.reset(
         {
 
@@ -105,7 +106,7 @@ export class RegistrarComponent implements OnInit {
 
     let observable : Observable<any>;
     if(this.isEditing){
-   
+      console.log("update",this.forma.value);
       observable = this._FuncionarioPublicoService.update(this.forma.value);
     }else{
      

@@ -88,7 +88,7 @@ export class FuncionarioPublicoService {
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
     
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionarioActivarInactivar + funcionarioPublico.idPersona;
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionarioActivarInactivar + funcionarioPublico.id;
       return this.http.put<FuncionarioPublico>(url, funcionarioPublico, {headers})
       .pipe(
         delay(500),

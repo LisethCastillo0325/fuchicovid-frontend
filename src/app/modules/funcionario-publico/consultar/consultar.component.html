@@ -58,18 +58,18 @@
                     </thead>
                     <tbody>
                       <tr  *ngFor="let funcionarioPublico of funcionariosPublicos">
-                        <th scope="row"> {{ funcionarioPublico.idPersona2.id }} </th>
-                        <td>{{ funcionarioPublico.idPersona2.nombre }}</td>
-                        <td>{{ funcionarioPublico.idPersona2.numeroIdentificacion}}</td>
-                        <td>{{ funcionarioPublico.idPersona2.idTipoIdentificacion['nombre']}}</td>
+                        <th scope="row"> {{ funcionarioPublico.id }} </th>
+                        <td>{{ funcionarioPublico.nombre }}</td>
+                        <td>{{ funcionarioPublico.numeroIdentificacion}}</td>
+                        <td>{{ funcionarioPublico.idTipoIdentificacion['nombre']}}</td>
                         <td>
-                          <span *ngIf="funcionarioPublico.idPersona2.estado == 'ACTIVO'" class="badge badge-success">{{ funcionarioPublico.idPersona2.estado }}</span>
-                          <span *ngIf="funcionarioPublico.idPersona2.estado == 'INACTIVO'" class="badge badge-danger">{{ funcionarioPublico.idPersona2.estado }}</span>
+                          <span *ngIf="funcionarioPublico.estado == 'ACTIVO'" class="badge badge-success">{{ funcionarioPublico.estado }}</span>
+                          <span *ngIf="funcionarioPublico.estado == 'INACTIVO'" class="badge badge-danger">{{ funcionarioPublico.estado }}</span>
                         </td>
                         <td>
                           <div class="project-actions text-right " >
 
-                            <a  [routerLink]="['/','funcionario-publico','editar', funcionarioPublico.idPersona]"
+                            <a  [routerLink]="['/','funcionario-publico','editar', funcionarioPublico.id]"
                               data-toggle="tooltip"
                               title="Editar funcionario"
                               class="btn btn-info btn-sm m-1">
@@ -77,7 +77,7 @@
                               Editar
                             </a>
                             <button
-                              *ngIf="funcionarioPublico.idPersona2.estado == 'ACTIVO'"
+                              *ngIf="funcionarioPublico.estado == 'ACTIVO'"
                               (click)="inactivateAndActivate(funcionarioPublico)"
                               data-toggle="tooltip"
                               title="Inactivar funcionario"
@@ -86,7 +86,7 @@
                               Inactivar
                             </button>
                             <button
-                              *ngIf="funcionarioPublico.idPersona2.estado == 'INACTIVO'"
+                              *ngIf="funcionarioPublico.estado == 'INACTIVO'"
                               (click)="inactivateAndActivate(funcionarioPublico)"
                               data-toggle="tooltip"
                               title="Inactivar funcionario"

@@ -100,7 +100,7 @@ export class ConsultarComponent implements OnInit {
 
   inactivateAndActivate(FuncionarioPublico: FuncionarioPublico){
     let mensaje : string;
-    console.log(FuncionarioPublico.idPersona2.estado,'lo que recibe');
+    // console.log(FuncionarioPublico.idPersona2.estado,'lo que recibe');
     if(FuncionarioPublico.estado == 'ACTIVO'){
       mensaje = 'inactivar ';
     }else{
@@ -111,10 +111,10 @@ export class ConsultarComponent implements OnInit {
       .then(result => {
         if(result.isConfirmed){
 
-          if(FuncionarioPublico.idPersona2.estado == 'ACTIVO'){
-            FuncionarioPublico.idPersona2.estado = 'INACTIVO';
+          if(FuncionarioPublico.estado == 'ACTIVO'){
+            FuncionarioPublico.estado = 'INACTIVO';
           }else{
-            FuncionarioPublico.idPersona2.estado = 'ACTIVO';
+            FuncionarioPublico.estado = 'ACTIVO';
           }
 
           this._FuncionarioPublicoService.inactivateAndActivate(FuncionarioPublico).subscribe(
