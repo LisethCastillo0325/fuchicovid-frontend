@@ -4,7 +4,9 @@ export const constants = {
     tipoDocumento: 'api/tipo-identificacion/',
     tipoDocumentoPaginationFilter: 'api/tipo-identificacion/pagination-filters/',
     tipoDocumentoActivarInactivar: 'api/tipo-identificacion/activar-inactivar/',
-
+    funcionario:'api/funcionario/',
+    funcionarioPaginationFilter: 'api/funcionario/pagination-filters/',
+    funcionarioActivarInactivar: 'api/funcionario/activar-inactivar/'
   },
    /**DataTable */
    dtOptions: {

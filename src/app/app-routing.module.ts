@@ -9,6 +9,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
   },
   {
+    path: 'funcionario-publico',
+    loadChildren: () => import('./modules/funcionario-publico/funcionario-publico.module').then(m => m.FuncionarioPublicoModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
