@@ -19,14 +19,16 @@ export const constants = {
     // Departamento
     departamento: 'api/departamento',
 
-    // Profesional Salud
-    profesionalSalud: 'api/profesional-salud/',
+    // Funcionario
     funcionario:'api/funcionario/',
     funcionarioPaginationFilter: 'api/funcionario/pagination-filters/',
     funcionarioActivarInactivar: 'api/funcionario/activar-inactivar/',
-    profesional:'api/profesionalS/',
-    profesionalPaginationFilter: 'api/profesionalS/pagination-filters/',
-    profesionalActivarInactivar: 'api/profesionalS/activar-inactivar/',
+
+    // Profesional Salud
+    profesionalSalud: 'api/profesional-salud/',
+    profesional:'api/profesional-salud/',
+    profesionalPaginationFilter: 'api/profesional-salud/pagination-filters/',
+    profesionalActivarInactivar: 'api/profesional-salud/activar-inactivar/',
     eps:'api/EPS',
     universidad:'api/universidad'
   },
