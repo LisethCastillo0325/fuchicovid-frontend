@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 // Modulos generales importados
 import { SharedModule } from './shared/shared.module';
 import { EnvServiceProvider } from './services/utils/env.service.provider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { EnvServiceProvider } from './services/utils/env.service.provider';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     SharedModule
   ],
   providers: [EnvServiceProvider],

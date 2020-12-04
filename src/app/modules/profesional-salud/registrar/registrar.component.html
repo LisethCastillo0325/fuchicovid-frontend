@@ -1,0 +1,77 @@
+<app-content-header title="Profesional de salud"></app-content-header>
+
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">{{ formTitle }}</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+          <form role="form" autocomplete="off" [formGroup]="forma" (ngSubmit)="save()" >
+            <div class="card-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nombre"
+                  oninput="this.value = this.value.toUpperCase()"
+                  required
+                  [value]="forma.get('nombre').value | uppercase"
+                  formControlName="nombre"
+                  [class.is-invalid]="isInvalidField('nombre')">
+                  <small *ngIf="validateField('nombre').show" class="text-danger"> {{ validateField('nombre').message }} </small>
+                <label for="exampleInputEmail1">Numero de Identificacion</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Numero de Identificacion"
+                  required
+                  [value]="forma.get('numeroIdentificacion').value"
+                  formControlName="numeroIdentificacion"
+                  [class.is-invalid]="isInvalidField('numeroIdentificacion')">
+                  <small *ngIf="validateField('numeroIdentificacion').show" class="text-danger"> {{ validateField('numeroIdentificacion').message }} </small>
+                <label for="exampleInputEmail1">Tipo de Identificacion</label><br>
+               <select required formControlName="idTipoIdentificacion">
+                 <option *ngFor="let val of tiposDocumentos" value={{val.id}}>
+                  {{val.nombre}}
+                 </option>
+               </select><br>
+               <label for="exampleInputEmail1">Universidad</label><br>
+               <select required formControlName="idUniversidad">
+                 <option *ngFor="let val of universidades" value={{val.id}}>
+                  {{val.nombre}}
+                 </option>
+               </select><br>
+               <label for="exampleInputEmail1">EPS</label><br>
+               <select required formControlName="idEps">
+                 <option *ngFor="let val of eps" value={{val.id}}>
+                  {{val.nombre}}
+                 </option>
+               </select><br>
+               <label for="exampleInputEmail1">Fecha de nacimiento</label>
+                <input formControlName="fechaNacimiento"matInput [matDatepicker]="dp3" disabled>
+                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+              
+
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button class="btn btn-primary float-right" type="submit">Grabar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+</section>

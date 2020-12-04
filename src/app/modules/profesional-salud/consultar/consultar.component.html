@@ -1,4 +1,4 @@
-<app-content-header title="Tipo Documento"></app-content-header>
+<app-content-header title="Profesional de salud"></app-content-header>
 
  <!-- Main content -->
  <section class="content">
@@ -8,7 +8,7 @@
 
         <div class="card">
           <div class="card-header">
-            <a [routerLink]="['/','tipo-documento','crear']" class="btn btn-primary float-right">Crear Nuevo</a>
+            <a [routerLink]="['/','profesional-salud','registrar']" class="btn btn-primary float-right">Crear Nuevo</a>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -17,11 +17,11 @@
                 <div class="form-row">
                   <div class="col-md-6 mb-3">
                     <label>Nombre</label>
+
                     <input
                       type="text"
                       class="form-control form-control-sm"
                       placeholder="Nombre"
-                      oninput="this.value = this.value.toUpperCase()"
                       [value]="forma.get('nombre').value | uppercase"
                       formControlName="nombre">
                   </div>
@@ -43,49 +43,57 @@
             </div>
             <hr>
 
-            <ng-container *ngIf="(tiposDocumentos.length > 0); else DataNotFound">
+            <ng-container *ngIf="(profesionalesSalud.length > 0); else DataNotFound">
               <div>
                   <table  class="table  table-striped">
                     <thead>
                     <tr>
                       <th>#</th>
                       <th>Nombre</th>
+                      <th>Numero de identificacion</th>
+                      <th>Tipo de identificacion</th>
+                      <th>Universidad</th>
+                      <th>EPS</th>
                       <th>Estado</th>
                       <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                      <tr  *ngFor="let tipoDocumento of tiposDocumentos">
-                        <th scope="row"> {{ tipoDocumento.id }} </th>
-                        <td>{{ tipoDocumento.nombre }}</td>
+                      <tr  *ngFor="let profesionalSalud of profesionalesSalud">
+                        <th scope="row"> {{ profesionalSalud.idPersona }} </th>
+                        <td>{{ profesionalSalud.idPersona2.nombre }}</td>
+                        <td>{{ profesionalSalud.idPersona2.numeroIdentificacion}}</td>
+                        <td>{{ profesionalSalud.idPersona2.idTipoIdentificacion['nombre']}}</td>
+                        <td>{{ profesionalSalud.idUniversidad['nombre']}}</td>
+                        <td>{{ profesionalSalud.idEps['nombre']}}</td>
                         <td>
-                          <span *ngIf="tipoDocumento.estado == 'ACTIVO'" class="badge badge-success">{{ tipoDocumento.estado }}</span>
-                          <span *ngIf="tipoDocumento.estado == 'INACTIVO'" class="badge badge-danger">{{ tipoDocumento.estado }}</span>
+                          <span *ngIf="profesionalSalud.idPersona2.estado == 'ACTIVO'" class="badge badge-success">{{ profesionalSalud.idPersona2.estado }}</span>
+                          <span *ngIf="profesionalSalud.idPersona2.estado == 'INACTIVO'" class="badge badge-danger">{{ profesionalSalud.idPersona2.estado }}</span>
                         </td>
                         <td>
                           <div class="project-actions text-right " >
 
-                            <a  [routerLink]="['/','tipo-documento','editar', tipoDocumento.id]"
+                            <a  [routerLink]="['/','profesional-salud','editar', profesionalSalud.idPersona]"
                               data-toggle="tooltip"
-                              title="Editar tipo de documento"
+                              title="Editar funcionario"
                               class="btn btn-info btn-sm m-1">
                               <i class="fas fa-pencil-alt"> </i>
                               Editar
                             </a>
                             <button
-                              *ngIf="tipoDocumento.estado == 'ACTIVO'"
-                              (click)="inactivateAndActivate(tipoDocumento)"
+                              *ngIf="profesionalSalud.idPersona2.estado == 'ACTIVO'"
+                              (click)="inactivateAndActivate(profesionalSalud)"
                               data-toggle="tooltip"
-                              title="Inactivar tipo de documento"
+                              title="Inactivar funcionario"
                               class="btn btn-danger btn-sm" >
                               <i class="fas fa-minus-circle"> </i>
                               Inactivar
                             </button>
                             <button
-                              *ngIf="tipoDocumento.estado == 'INACTIVO'"
-                              (click)="inactivateAndActivate(tipoDocumento)"
+                              *ngIf="profesionalSalud.idPersona2.estado == 'INACTIVO'"
+                              (click)="inactivateAndActivate(profesionalSalud)"
                               data-toggle="tooltip"
-                              title="Inactivar tipo de documento"
+                              title="Inactivar funcionario"
                               class="btn btn-success btn-sm" >
                               <i class="fas fa-minus-circle"> </i>
                               Activar

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TipoDocumento } from '../../../models/tipo-documento.model';
+import { FuncionarioPublico } from '../../../models/funcionario-publico.model';
 import { AlertMessagesService } from '../../../services/alert/alert-messages.service';
 import { DataSourceService } from '../../../services/data-source/data-source.service';
-import { TipoDocumentoService } from '../../../services/tipo-documento/tipo-documento.service';
-
+import { FuncionarioPublicoService } from '../../../services/funcionario-publico/funcionario-publico.service';
 @Component({
   selector: 'app-consultar',
   templateUrl: './consultar.component.html',
@@ -12,7 +11,7 @@ import { TipoDocumentoService } from '../../../services/tipo-documento/tipo-docu
 })
 export class ConsultarComponent implements OnInit {
 
-  tiposDocumentos: TipoDocumento[] = [];
+  funcionariosPublicos: FuncionarioPublico[] = [];
 
   //source
   dataSourceEstados: any[] = [];
@@ -36,7 +35,7 @@ export class ConsultarComponent implements OnInit {
   isSearch: boolean = false;
 
 
-  constructor(private _tipoDocumentoService: TipoDocumentoService,
+  constructor(private _FuncionarioPublicoService: FuncionarioPublicoService,
               private _alertMessagesService: AlertMessagesService,
               private _dataSourceService : DataSourceService,
               private fb: FormBuilder) {
@@ -52,25 +51,35 @@ export class ConsultarComponent implements OnInit {
     this.forma = this.fb.group({
       id: [''],
       nombre: [''],
-      estado: ['']
+      estado: [''],
+      numeroIdentificacion: [''],
+      idTipoIdentificacion:['']
     });
   }
 
   async getSourceEstados(){
+
     this.dataSourceEstados = await this._dataSourceService.getDataSourceEstados();
-    
+      
   }
 
   getAll(isBtnSearch?:boolean){
- 
+
     this._alertMessagesService.showMessageLoading();
-    this._tipoDocumentoService.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
+    
+
+    this._FuncionarioPublicoService.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
       
+      console.log("cosas",response.data);
       if(!response.ok){
         this._alertMessagesService.showMessage('error', response.message);
-      }else{
-        this.tiposDocumentos = response.data.data;
+      }else if(response.data.data===undefined){
 
+      }
+      else{
+        this.funcionariosPublicos = response.data.data;
+        console.log("prueba",response.data.data);
+        // console.log("prueba",this.funcionariosPublicos);
         //Paginación
         this.currentPage = response.data.page;
         this.totalPages = response.data.totalPages;
@@ -89,9 +98,10 @@ export class ConsultarComponent implements OnInit {
 
   }
 
-  inactivateAndActivate(tipoDocumento: TipoDocumento){
+  inactivateAndActivate(FuncionarioPublico: FuncionarioPublico){
     let mensaje : string;
-    if(tipoDocumento.estado == 'ACTIVO'){
+    // console.log(FuncionarioPublico.idPersona2.estado,'lo que recibe');
+    if(FuncionarioPublico.estado == 'ACTIVO'){
       mensaje = 'inactivar ';
     }else{
       mensaje = 'activar';
@@ -101,13 +111,13 @@ export class ConsultarComponent implements OnInit {
       .then(result => {
         if(result.isConfirmed){
 
-          if(tipoDocumento.estado == 'ACTIVO'){
-            tipoDocumento.estado = 'INACTIVO';
+          if(FuncionarioPublico.estado == 'ACTIVO'){
+            FuncionarioPublico.estado = 'INACTIVO';
           }else{
-            tipoDocumento.estado = 'ACTIVO';
+            FuncionarioPublico.estado = 'ACTIVO';
           }
 
-          this._tipoDocumentoService.inactivateAndActivate(tipoDocumento).subscribe(
+          this._FuncionarioPublicoService.inactivateAndActivate(FuncionarioPublico).subscribe(
             response => {
               if(response === null){
                 this._alertMessagesService.showMessage('error', 'se presentó un error en el api');
@@ -115,7 +125,9 @@ export class ConsultarComponent implements OnInit {
                 if(!response.ok){
                   this._alertMessagesService.showMessage('error', response.message);
                 }else{
+                  console.log("prueba cosas",this.forma.get('nombre'));
                   let nameForm : string = this.forma.get('nombre').value;
+
                   this._alertMessagesService.showMessage('success', response.message, nameForm.toUpperCase() , false, 2000);
                 }
               }
@@ -132,7 +144,7 @@ export class ConsultarComponent implements OnInit {
     this.currentPage = 1;
     this.currentPageGroup = 1;
     this.filters = this.forma.value;
-    
+    console.log("cosas de buscar",this.filters);
     this.isSearch = true;
     this.getAll(true);
   }
@@ -195,5 +207,7 @@ export class ConsultarComponent implements OnInit {
     this.currentPage = this.endPage;
     this.getAll();
   }
+  }
 
-}
+
+

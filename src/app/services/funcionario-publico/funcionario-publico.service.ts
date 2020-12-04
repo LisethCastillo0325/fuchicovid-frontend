@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, delay } from "rxjs/operators";
 import { constants } from '../../../config/app.constants';
-import { ProfesionalSalud } from '../../models/profesional-salud.model';
+import { FuncionarioPublico } from '../../models/funcionario-publico.model';
 import { EnvService } from '../utils/env.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfesionalSaludService {
+export class FuncionarioPublicoService {
 
   constructor(private http: HttpClient,
     private env: EnvService) { }
@@ -18,9 +18,9 @@ export class ProfesionalSaludService {
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
-
-      const url = this.env.apiGatewayBackOffice + constants.config.profesional;
-
+  
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionario;
+      
       return this.http.get(url, {headers})
         .pipe(
           delay(500),
@@ -31,8 +31,8 @@ export class ProfesionalSaludService {
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
-
-      const url = this.env.apiGatewayBackOffice + constants.config.profesional + id;
+  
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionario + id;
       console.log('URL', url);
       return this.http.get(url, {headers})
         .pipe(
@@ -40,26 +40,25 @@ export class ProfesionalSaludService {
           catchError(err => of(err.error))
         );
     }
-    create(ProfesionalSalud: ProfesionalSalud){
+    create(funcionarioPublico: FuncionarioPublico){
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
-
-      const url = this.env.apiGatewayBackOffice + constants.config.profesional;
-      return this.http.post<ProfesionalSalud>(url, ProfesionalSalud, {headers})
+  
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionario;
+      return this.http.post<FuncionarioPublico>(url, funcionarioPublico, {headers})
       .pipe(
         delay(500),
         catchError(err => of(err.error))
       );
     }
-
-    update(ProfesionalSalud){
+  
+    update(funcionarioPublico){
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
-        console.log("prof",ProfesionalSalud);
-      const url = this.env.apiGatewayBackOffice + constants.config.profesional + ProfesionalSalud.id;
-      return this.http.put<ProfesionalSalud>(url, ProfesionalSalud, {headers})
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionario + funcionarioPublico.id;
+      return this.http.put<FuncionarioPublico>(url, funcionarioPublico, {headers})
       .pipe(
         delay(500),
         catchError(err => of(err.error))
@@ -70,31 +69,30 @@ export class ProfesionalSaludService {
       const headers = new HttpHeaders()
         .append('Content-Type', 'application/json')
         .append('Authorization', 'Bearer ' + localStorage.getItem('token'));
-
+      
       let params = {
         page:  page.toString(),
         limit: limit.toString(),
         filters: filters
       }
-
-      const url = this.env.apiGatewayBackOffice + constants.config.profesionalPaginationFilter;
+  
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionarioPaginationFilter;
       return this.http.post(url, params, {headers})
         .pipe(
           delay(200),
           catchError(err =>  of( err.error))
         );
     }
-    inactivateAndActivate(ProfesionalSalud: ProfesionalSalud){
+    inactivateAndActivate(funcionarioPublico: FuncionarioPublico){
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
-
-      const url = this.env.apiGatewayBackOffice + constants.config.profesionalActivarInactivar + ProfesionalSalud.idPersona;
-      return this.http.put<ProfesionalSalud>(url, ProfesionalSalud, {headers})
+    
+      const url = this.env.apiGatewayBackOffice + constants.config.funcionarioActivarInactivar + funcionarioPublico.id;
+      return this.http.put<FuncionarioPublico>(url, funcionarioPublico, {headers})
       .pipe(
         delay(500),
         catchError(err => of(err.error))
       );
     }
 }
-

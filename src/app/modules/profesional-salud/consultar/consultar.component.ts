@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { TipoDocumento } from '../../../models/tipo-documento.model';
+import { ProfesionalSalud } from '../../../models/profesional-salud.model';
 import { AlertMessagesService } from '../../../services/alert/alert-messages.service';
 import { DataSourceService } from '../../../services/data-source/data-source.service';
-import { TipoDocumentoService } from '../../../services/tipo-documento/tipo-documento.service';
+import { ProfesionalSaludService } from '../../../services/profesional-salud/profesional-salud.service';
 
 @Component({
   selector: 'app-consultar',
@@ -12,7 +12,7 @@ import { TipoDocumentoService } from '../../../services/tipo-documento/tipo-docu
 })
 export class ConsultarComponent implements OnInit {
 
-  tiposDocumentos: TipoDocumento[] = [];
+  profesionalesSalud: ProfesionalSalud[] = [];
 
   //source
   dataSourceEstados: any[] = [];
@@ -36,7 +36,7 @@ export class ConsultarComponent implements OnInit {
   isSearch: boolean = false;
 
 
-  constructor(private _tipoDocumentoService: TipoDocumentoService,
+  constructor(private _ProfesionalSaludService: ProfesionalSaludService,
               private _alertMessagesService: AlertMessagesService,
               private _dataSourceService : DataSourceService,
               private fb: FormBuilder) {
@@ -52,25 +52,37 @@ export class ConsultarComponent implements OnInit {
     this.forma = this.fb.group({
       id: [''],
       nombre: [''],
-      estado: ['']
+      estado: [''],
+      numeroIdentificacion: [''],
+      idTipoIdentificacion:[''],
+      universiad:[''],
+      eps:['']
     });
   }
 
   async getSourceEstados(){
+
     this.dataSourceEstados = await this._dataSourceService.getDataSourceEstados();
-    
+      
   }
 
   getAll(isBtnSearch?:boolean){
- 
+
     this._alertMessagesService.showMessageLoading();
-    this._tipoDocumentoService.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
+    
+
+    this._ProfesionalSaludService.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
       
+      console.log("coqrwerqwersas",response.data);
       if(!response.ok){
         this._alertMessagesService.showMessage('error', response.message);
-      }else{
-        this.tiposDocumentos = response.data.data;
+      }else if(response.data.data===undefined){
 
+      }
+      else{
+        this.profesionalesSalud = response.data.data;
+        console.log("prueqwerqewrba",response.data.data);
+        // console.log("prueba",this.profesionalesSalud);
         //Paginación
         this.currentPage = response.data.page;
         this.totalPages = response.data.totalPages;
@@ -89,9 +101,10 @@ export class ConsultarComponent implements OnInit {
 
   }
 
-  inactivateAndActivate(tipoDocumento: TipoDocumento){
+  inactivateAndActivate(ProfesionalSalud: ProfesionalSalud){
     let mensaje : string;
-    if(tipoDocumento.estado == 'ACTIVO'){
+    console.log(ProfesionalSalud,'lo que recibe');
+    if(ProfesionalSalud.idPersona2.estado == 'ACTIVO'){
       mensaje = 'inactivar ';
     }else{
       mensaje = 'activar';
@@ -101,13 +114,14 @@ export class ConsultarComponent implements OnInit {
       .then(result => {
         if(result.isConfirmed){
 
-          if(tipoDocumento.estado == 'ACTIVO'){
-            tipoDocumento.estado = 'INACTIVO';
+          if(ProfesionalSalud.idPersona2.estado == 'ACTIVO'){
+            ProfesionalSalud.idPersona2.estado = 'INACTIVO';
           }else{
-            tipoDocumento.estado = 'ACTIVO';
+            ProfesionalSalud.idPersona2
+            .estado = 'ACTIVO';
           }
 
-          this._tipoDocumentoService.inactivateAndActivate(tipoDocumento).subscribe(
+          this._ProfesionalSaludService.inactivateAndActivate(ProfesionalSalud).subscribe(
             response => {
               if(response === null){
                 this._alertMessagesService.showMessage('error', 'se presentó un error en el api');
@@ -115,7 +129,9 @@ export class ConsultarComponent implements OnInit {
                 if(!response.ok){
                   this._alertMessagesService.showMessage('error', response.message);
                 }else{
+                  console.log("prueba cosas",this.forma.get('nombre'));
                   let nameForm : string = this.forma.get('nombre').value;
+
                   this._alertMessagesService.showMessage('success', response.message, nameForm.toUpperCase() , false, 2000);
                 }
               }
@@ -132,7 +148,7 @@ export class ConsultarComponent implements OnInit {
     this.currentPage = 1;
     this.currentPageGroup = 1;
     this.filters = this.forma.value;
-    
+    console.log("cosas de buscar",this.filters);
     this.isSearch = true;
     this.getAll(true);
   }

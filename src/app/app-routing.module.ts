@@ -21,6 +21,14 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
   },
+  {
+    path: 'funcionario-publico',
+    loadChildren: () => import('./modules/funcionario-publico/funcionario-publico.module').then(m => m.FuncionarioPublicoModule)
+  },
+  {
+    path: 'profesional-salud',
+    loadChildren: () => import('./modules/profesional-salud/profesional-salud.module').then(m => m.ProfesionalSaludModule)
+  },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
