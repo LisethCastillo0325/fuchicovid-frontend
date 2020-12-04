@@ -124,7 +124,7 @@
                       [value]="forma.get('idDoctorEncargado').value"
                       [class.is-invalid]="isInvalidField('idDoctorEncargado')"
                       >
-                      <option *ngFor="let item of dataSourceMedico"  [value]="item.id "> {{ item.nombre }}</option>
+                      <option *ngFor="let item of dataSourceMedico"  [value]="item.idPersona "> {{ item.nombre }}</option>
                     </select>
                     <small *ngIf="validateField('idDoctorEncargado').show" class="text-danger"> {{ validateField('idDoctorEncargado').message }} </small>
                   </div>
