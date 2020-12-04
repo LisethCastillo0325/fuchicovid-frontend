@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { delay, catchError } from "rxjs/operators";
-import { EnvService } from '../utils/env.service';
-import { Observable, of } from 'rxjs';
+import { delay, catchError } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
 import { constants } from '../../../config/app.constants';
-import { TipoDocumento } from '../../models/tipo-documento.model';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { EnvService } from '../utils/env.service';
+import { Paciente } from '../../models/paciente.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TipoDocumentoService {
+export class PacienteService {
 
   constructor(private http: HttpClient,
-              private env: EnvService) { }
+    private env: EnvService) { }
 
   getAll() : Observable<any>{
     const headers = new HttpHeaders()
       .set('content-type','application/json')
       .set('Authorization','Bearer ' + localStorage.getItem('token'));
 
-    const url = this.env.apiGatewayBackOffice + constants.config.tipoDocumento;
+    const url = this.env.apiGatewayBackOffice + constants.config.paciente;
     console.log('URL', url);
     return this.http.get(url, {headers})
       .pipe(
@@ -39,7 +39,7 @@ export class TipoDocumentoService {
       filters: filters
     }
 
-    const url = this.env.apiGatewayBackOffice + constants.config.tipoDocumentoPaginationFilter;
+    const url = this.env.apiGatewayBackOffice + constants.config.pacientePaginationFilter;
     return this.http.post(url, params, {headers})
       .pipe(
         delay(200),
@@ -47,16 +47,12 @@ export class TipoDocumentoService {
       );
   }
 
-  getAllUsingFilters(filters?:any) : Observable<any>{
-    return this.getAllPaginated(1,999, filters);
-  }
-
   getById(id: number) : Observable<any>{
     const headers = new HttpHeaders()
       .set('content-type','application/json')
       .set('Authorization','Bearer ' + localStorage.getItem('token'));
 
-    const url = this.env.apiGatewayBackOffice + constants.config.tipoDocumento + id;
+    const url = this.env.apiGatewayBackOffice + constants.config.paciente + id;
     console.log('URL', url);
     return this.http.get(url, {headers})
       .pipe(
@@ -65,44 +61,42 @@ export class TipoDocumentoService {
       );
   }
 
-  create(tipoDocumento: TipoDocumento){
+  create(paciente: Paciente){
+    const headers = new HttpHeaders()
+    .set('content-type','application/json')
+    .set('Authorization','Bearer ' + localStorage.getItem('token'));
+
+    const url = this.env.apiGatewayBackOffice + constants.config.paciente;
+    return this.http.post<Paciente>(url, paciente, {headers})
+      .pipe(
+        delay(500),
+        catchError(err => of(err.error))
+      );
+  }
+
+  update(paciente: Paciente){
     const headers = new HttpHeaders()
       .set('content-type','application/json')
       .set('Authorization','Bearer ' + localStorage.getItem('token'));
 
-    const url = this.env.apiGatewayBackOffice + constants.config.tipoDocumento;
-    return this.http.post<TipoDocumento>(url, tipoDocumento, {headers})
-    .pipe(
-      delay(500),
-      catchError(err => of(err.error))
-    );
+    const url = this.env.apiGatewayBackOffice + constants.config.paciente + paciente.id;
+    return this.http.put<Paciente>(url, paciente, {headers})
+      .pipe(
+        delay(500),
+        catchError(err => of(err.error))
+      );
   }
 
-  update(tipoDocumento: TipoDocumento){
+  inactivateAndActivate(paciente: Paciente){
     const headers = new HttpHeaders()
       .set('content-type','application/json')
       .set('Authorization','Bearer ' + localStorage.getItem('token'));
 
-    const url = this.env.apiGatewayBackOffice + constants.config.tipoDocumento + tipoDocumento.id;
-    return this.http.put<TipoDocumento>(url, tipoDocumento, {headers})
-    .pipe(
-      delay(500),
-      catchError(err => of(err.error))
-    );
+    const url = this.env.apiGatewayBackOffice + constants.config.pacienteActivarInactivar + paciente.id;
+    return this.http.put<Paciente>(url, paciente, {headers})
+      .pipe(
+        delay(500),
+        catchError(err => of(err.error))
+      );
   }
-
-  inactivateAndActivate(tipoDocumento: TipoDocumento){
-    const headers = new HttpHeaders()
-      .set('content-type','application/json')
-      .set('Authorization','Bearer ' + localStorage.getItem('token'));
-
-    const url = this.env.apiGatewayBackOffice + constants.config.tipoDocumentoActivarInactivar + tipoDocumento.id;
-    return this.http.put<TipoDocumento>(url, tipoDocumento, {headers})
-    .pipe(
-      delay(500),
-      catchError(err => of(err.error))
-    );
-  }
-
-
 }

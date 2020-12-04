@@ -25,12 +25,36 @@
              with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-          <a [routerLink]="['/', 'dashboard']" class="nav-link active" routerLinkActive="active" >
+          <a [routerLink]="['/', 'dashboard']" class="nav-link" routerLinkActive="active" >
             <i class="nav-icon fas fa-th"></i>
             <p>
               Dashboard
             </p>
           </a>
+        </li>
+
+        <li class="nav-item has-treeview menu-open">
+          <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-procedures"></i>
+            <p>
+              Paciente
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a [routerLink]="['/', 'paciente', 'crear']" class="nav-link " routerLinkActive="active" >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Crear</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/', 'paciente', 'consultar']" class="nav-link" routerLinkActive="active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Consultar</p>
+              </a>
+            </li>
+          </ul>
         </li>
 
         <li class="nav-item has-treeview menu-open">

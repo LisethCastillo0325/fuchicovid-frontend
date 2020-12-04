@@ -1,0 +1,224 @@
+<app-content-header title="Paciente"></app-content-header>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-11">
+        <!-- general form elements -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">{{ formTitle }}</h3>
+          </div>
+          <!-- /.card-header -->
+          <!-- form start -->
+
+          <form role="form" autocomplete="off" [formGroup]="forma" (ngSubmit)="save()" >
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Nombre"
+                      required
+                      [value]="forma.get('nombre').value | uppercase"
+                      formControlName="nombre"
+                      [class.is-invalid]="isInvalidField('nombre')">
+                      <small *ngIf="validateField('nombre').show" class="text-danger"> {{ validateField('nombre').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Numero Documento</label>
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      placeholder="Numero Documento"
+                      required
+                      [value]="forma.get('numeroIdentificacion').value"
+                      formControlName="numeroIdentificacion"
+                      [class.is-invalid]="isInvalidField('numeroIdentificacion')">
+                      <small *ngIf="validateField('numeroIdentificacion').show" class="text-danger"> {{ validateField('numeroIdentificacion').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Tipo Documento</label>
+                    <select
+                      class="form-control form-control-sm select2"
+                      placeholder="Tipo Documento"
+                      required
+                      formControlName="idTipoIdentificacion"
+                      [value]="forma.get('idTipoIdentificacion').value"
+                      [class.is-invalid]="isInvalidField('idTipoIdentificacion')">
+                      <option *ngFor="let item of dataSourceTipoDocumento"  [value]="item.id"> {{ item.nombre }}</option>
+                    </select>
+                    <small *ngIf="validateField('idTipoIdentificacion').show" class="text-danger"> {{ validateField('idTipoIdentificacion').message }} </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Departamento</label>
+                    <select
+                      class="form-control form-control-sm select2"
+                      placeholder="Departamento"
+                      required
+                      formControlName="departamento"
+                      [value]="forma.get('departamento').value"
+                      [class.is-invalid]="isInvalidField('departamento')">
+                      <option *ngFor="let item of dataSourceDepartamento"  [value]="item.id"> {{ item.nombre }}</option>
+                    </select>
+                    <small *ngIf="validateField('departamento').show" class="text-danger"> {{ validateField('departamento').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Ciudad</label>
+                    <select
+                      class="form-control form-control-sm select2"
+                      placeholder="Ciudad"
+                      required
+                      formControlName="idCiudadContagio"
+                      [value]="forma.get('idCiudadContagio').value"
+                      [class.is-invalid]="isInvalidField('idCiudadContagio')"
+                      >
+                      <option *ngFor="let item of dataSourceCiudad"  [value]="item.id"> {{ item.nombre }}</option>
+                    </select>
+                    <small *ngIf="validateField('idCiudadContagio').show" class="text-danger"> {{ validateField('idCiudadContagio').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Estado</label>
+                    <select
+                      class="form-control form-control-sm select2"
+                      placeholder="Estado"
+                      required
+                      formControlName="estado"
+                      [value]="forma.get('estado').value"
+                      [class.is-invalid]="isInvalidField('estado')"
+                      >
+                      <option *ngFor="let item of dataSourceEstados"  [value]="item.value"> {{ item.text }}</option>
+                    </select>
+                    <small *ngIf="validateField('estado').show" class="text-danger"> {{ validateField('estado').message }} </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label>Doctor Encargado</label>
+                    <select
+                      class="form-control form-control-sm select2"
+                      placeholder="Medico"
+                      required
+                      formControlName="idDoctorEncargado"
+                      [value]="forma.get('idDoctorEncargado').value"
+                      [class.is-invalid]="isInvalidField('idDoctorEncargado')"
+                      >
+                      <option *ngFor="let item of dataSourceMedico"  [value]="item.id "> {{ item.nombre }}</option>
+                    </select>
+                    <small *ngIf="validateField('idDoctorEncargado').show" class="text-danger"> {{ validateField('idDoctorEncargado').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Estado Salud</label>
+                    <select
+                      class="form-control form-control-sm select2"
+                      placeholder="Estado Salud"
+                      required
+                      formControlName="estadoEnfermedad"
+                      [value]="forma.get('estadoEnfermedad').value"
+                      [class.is-invalid]="isInvalidField('estadoEnfermedad')"
+                      >
+                      <option *ngFor="let item of dataSourceEstadoEnfermedad"  [value]="item.value"> {{ item.text }}</option>
+                    </select>
+                    <small *ngIf="validateField('estadoEnfermedad').show" class="text-danger"> {{ validateField('estadoEnfermedad').message }} </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Fecha Nacimiento</label>
+                    <input
+                      type="date"
+                      class="form-control form-control-sm"
+                      placeholder="Fecha Nacimiento"
+                      required
+                      [value]="forma.get('fechaNacimiento').value"
+                      formControlName="fechaNacimiento"
+                      [class.is-invalid]="isInvalidField('fechaNacimiento')"
+                      >
+                      <small *ngIf="validateField('fechaNacimiento').show" class="text-danger"> {{ validateField('fechaNacimiento').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>No. Integrantes Hogar</label>
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      placeholder="No. Integrantes Hogar"
+                      required
+                      [value]="forma.get('numeroIntegrantesHogar').value"
+                      formControlName="numeroIntegrantesHogar"
+                      [class.is-invalid]="isInvalidField('numeroIntegrantesHogar')"
+                      >
+                      <small *ngIf="validateField('numeroIntegrantesHogar').show" class="text-danger"> {{ validateField('numeroIntegrantesHogar').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Latitud</label>
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      placeholder="Latitud"
+                      required
+                      [value]="forma.get('latitud').value"
+                      formControlName="latitud"
+                      [class.is-invalid]="isInvalidField('latitud')"
+                      >
+                      <small *ngIf="validateField('latitud').show" class="text-danger"> {{ validateField('latitud').message }} </small>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Longitud</label>
+                    <input
+                      type="number"
+                      class="form-control form-control-sm"
+                      placeholder="Longitud"
+                      required
+                      [value]="forma.get('longitud').value"
+                      formControlName="longitud"
+                      [class.is-invalid]="isInvalidField('longitud')"
+                      >
+                      <small *ngIf="validateField('longitud').show" class="text-danger"> {{ validateField('longitud').message }} </small>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button class="btn btn-primary float-right" type="submit">Grabar</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+</section>

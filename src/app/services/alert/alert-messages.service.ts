@@ -39,7 +39,8 @@ export class AlertMessagesService {
       showCancelButton: true,
       confirmButtonColor: confirmButtonColor,
       cancelButtonColor: cancelButtonColor,
-      confirmButtonText: confirmButtonText
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: 'Cancelar'
     });
   }
 
