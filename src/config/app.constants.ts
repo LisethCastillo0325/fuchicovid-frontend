@@ -6,7 +6,12 @@ export const constants = {
     tipoDocumentoActivarInactivar: 'api/tipo-identificacion/activar-inactivar/',
     funcionario:'api/funcionario/',
     funcionarioPaginationFilter: 'api/funcionario/pagination-filters/',
-    funcionarioActivarInactivar: 'api/funcionario/activar-inactivar/'
+    funcionarioActivarInactivar: 'api/funcionario/activar-inactivar/',
+    profesional:'api/profesionalS/',
+    profesionalPaginationFilter: 'api/profesionalS/pagination-filters/',
+    profesionalActivarInactivar: 'api/profesionalS/activar-inactivar/',
+    eps:'api/EPS',
+    universidad:'api/universidad'
   },
    /**DataTable */
    dtOptions: {

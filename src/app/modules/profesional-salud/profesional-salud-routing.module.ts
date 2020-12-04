@@ -13,7 +13,7 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'registrar',
+        path: 'caca',
         loadChildren: () => import('./registrar/registrar.module').then(m => m.RegistrarModule)
       },
       {

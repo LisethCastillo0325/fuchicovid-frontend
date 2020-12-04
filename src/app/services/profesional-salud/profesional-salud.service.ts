@@ -9,7 +9,7 @@ import { EnvService } from '../utils/env.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FuncionarioPublicoService {
+export class ProfesionalSaludService {
 
   constructor(private http: HttpClient,
     private env: EnvService) { }
@@ -19,7 +19,7 @@ export class FuncionarioPublicoService {
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
   
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionario;
+      const url = this.env.apiGatewayBackOffice + constants.config.profesional;
       
       return this.http.get(url, {headers})
         .pipe(
@@ -32,7 +32,7 @@ export class FuncionarioPublicoService {
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
   
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionario + id;
+      const url = this.env.apiGatewayBackOffice + constants.config.profesional + id;
       console.log('URL', url);
       return this.http.get(url, {headers})
         .pipe(
@@ -40,25 +40,26 @@ export class FuncionarioPublicoService {
           catchError(err => of(err.error))
         );
     }
-    create(funcionarioPublico: FuncionarioPublico){
+    create(ProfesionalSalud: ProfesionalSalud){
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
   
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionario;
-      return this.http.post<FuncionarioPublico>(url, funcionarioPublico, {headers})
+      const url = this.env.apiGatewayBackOffice + constants.config.profesional;
+      return this.http.post<ProfesionalSalud>(url, ProfesionalSalud, {headers})
       .pipe(
         delay(500),
         catchError(err => of(err.error))
       );
     }
   
-    update(funcionarioPublico){
+    update(ProfesionalSalud){
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionario + funcionarioPublico.id;
-      return this.http.put<FuncionarioPublico>(url, funcionarioPublico, {headers})
+        console.log("prof",ProfesionalSalud);
+      const url = this.env.apiGatewayBackOffice + constants.config.profesional + ProfesionalSalud.id;
+      return this.http.put<ProfesionalSalud>(url, ProfesionalSalud, {headers})
       .pipe(
         delay(500),
         catchError(err => of(err.error))
@@ -76,20 +77,20 @@ export class FuncionarioPublicoService {
         filters: filters
       }
   
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionarioPaginationFilter;
+      const url = this.env.apiGatewayBackOffice + constants.config.profesionalPaginationFilter;
       return this.http.post(url, params, {headers})
         .pipe(
           delay(200),
           catchError(err =>  of( err.error))
         );
     }
-    inactivateAndActivate(funcionarioPublico: FuncionarioPublico){
+    inactivateAndActivate(ProfesionalSalud: ProfesionalSalud){
       const headers = new HttpHeaders()
         .set('content-type','application/json')
         .set('Authorization','Bearer ' + localStorage.getItem('token'));
     
-      const url = this.env.apiGatewayBackOffice + constants.config.funcionarioActivarInactivar + funcionarioPublico.id;
-      return this.http.put<FuncionarioPublico>(url, funcionarioPublico, {headers})
+      const url = this.env.apiGatewayBackOffice + constants.config.profesionalActivarInactivar + ProfesionalSalud.idPersona;
+      return this.http.put<ProfesionalSalud>(url, ProfesionalSalud, {headers})
       .pipe(
         delay(500),
         catchError(err => of(err.error))

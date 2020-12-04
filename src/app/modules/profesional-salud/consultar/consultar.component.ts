@@ -73,7 +73,7 @@ export class ConsultarComponent implements OnInit {
 
     this._ProfesionalSaludService.getAllPaginated(this.currentPage, this.limitData, this.filters).subscribe(response => {
       
-      console.log("cosas",response.data);
+      console.log("coqrwerqwersas",response.data);
       if(!response.ok){
         this._alertMessagesService.showMessage('error', response.message);
       }else if(response.data.data===undefined){
@@ -81,7 +81,7 @@ export class ConsultarComponent implements OnInit {
       }
       else{
         this.profesionalesSalud = response.data.data;
-        console.log("prueba",response.data.data);
+        console.log("prueqwerqewrba",response.data.data);
         // console.log("prueba",this.profesionalesSalud);
         //Paginación
         this.currentPage = response.data.page;
@@ -103,8 +103,8 @@ export class ConsultarComponent implements OnInit {
 
   inactivateAndActivate(ProfesionalSalud: ProfesionalSalud){
     let mensaje : string;
-    // console.log(ProfesionalSalud.idPersona2.estado,'lo que recibe');
-    if(ProfesionalSalud.estado == 'ACTIVO'){
+    console.log(ProfesionalSalud,'lo que recibe');
+    if(ProfesionalSalud.idPersona2.estado == 'ACTIVO'){
       mensaje = 'inactivar ';
     }else{
       mensaje = 'activar';
@@ -114,10 +114,11 @@ export class ConsultarComponent implements OnInit {
       .then(result => {
         if(result.isConfirmed){
 
-          if(ProfesionalSalud.estado == 'ACTIVO'){
-            ProfesionalSalud.estado = 'INACTIVO';
+          if(ProfesionalSalud.idPersona2.estado == 'ACTIVO'){
+            ProfesionalSalud.idPersona2.estado = 'INACTIVO';
           }else{
-            ProfesionalSalud.estado = 'ACTIVO';
+            ProfesionalSalud.idPersona2
+            .estado = 'ACTIVO';
           }
 
           this._ProfesionalSaludService.inactivateAndActivate(ProfesionalSalud).subscribe(

@@ -7,4 +7,5 @@ export class FuncionarioPublico {
   estado:string;
   fechaNacimiento:string;
  
+ 
 }
