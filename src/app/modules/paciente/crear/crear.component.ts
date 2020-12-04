@@ -12,6 +12,8 @@ import { ValidatorsService } from '../../../services/validators/validators.servi
 import { FieldValidation } from '../../../interfaces/field-validation.interface';
 import { Observable } from 'rxjs';
 import { Paciente } from '../../../models/paciente.model';
+import { ContactoEmergencias } from '../../../models/contacto-emergencias.model';
+import { RelacionPacienteIntegrantes } from '../../../models/relacion-paciente-ntegrantes.model';
 
 @Component({
   selector: 'app-crear',
@@ -28,6 +30,8 @@ export class CrearComponent implements OnInit {
   dataSourceTipoDocumento: TipoDocumento[] = [];
   dataSourceMedico: ProfesionalSalud[] = []
   dataSourceEstadoEnfermedad: any[] = [];
+  contactoEmergencias: ContactoEmergencias[] = [];
+  relacionPacienteIntegrantes: RelacionPacienteIntegrantes[] = [];
 
   //form
   forma: FormGroup;
@@ -35,6 +39,7 @@ export class CrearComponent implements OnInit {
   formTitle = 'Crear Paciente';
   isEditing = false;
   pacienteId : number = null;
+  paciente: Paciente;
 
   constructor(private activatedRoute: ActivatedRoute,
               private _validatorsService : ValidatorsService,
@@ -100,23 +105,25 @@ export class CrearComponent implements OnInit {
     if(!response.ok){
       this._alertMessagesService.showMessage('error', response.message);
     }else{
-      const paciente : Paciente = response.data;
-      console.log(paciente);
+      this.paciente = response.data;
+      this.contactoEmergencias = this.paciente.paciente.contactoEmergencias;
+      this.relacionPacienteIntegrantes = this.paciente.paciente.relacionPacienteIntegrantes;
+      console.log(this.paciente);
       this.forma.reset(
         {
-          id: paciente.id,
-          nombre: paciente.nombre,
-          estado: paciente.estado,
-          numeroIdentificacion: paciente.numeroIdentificacion,
-          idTipoIdentificacion: paciente.idTipoIdentificacion.id,
-          fechaNacimiento: paciente.fechaNacimiento,
-          departamento: paciente.paciente.idCiudadContagio.idDepartamento,
-          idCiudadContagio: paciente.paciente.idCiudadContagio.id,
-          latitud: paciente.paciente.latitud,
-          longitud: paciente.paciente.longitud,
-          numeroIntegrantesHogar: paciente.paciente.numeroIntegrantesHogar,
-          estadoEnfermedad: paciente.paciente.estadoEnfermedad,
-          idDoctorEncargado: paciente.paciente.idDoctorEncargado.idPersona
+          id: this.paciente.id,
+          nombre: this.paciente.nombre,
+          estado: this.paciente.estado,
+          numeroIdentificacion: this.paciente.numeroIdentificacion,
+          idTipoIdentificacion: this.paciente.idTipoIdentificacion.id,
+          fechaNacimiento: this.paciente.fechaNacimiento,
+          departamento: this.paciente.paciente.idCiudadContagio.idDepartamento,
+          idCiudadContagio: this.paciente.paciente.idCiudadContagio.id,
+          latitud: this.paciente.paciente.latitud,
+          longitud: this.paciente.paciente.longitud,
+          numeroIntegrantesHogar: this.paciente.paciente.numeroIntegrantesHogar,
+          estadoEnfermedad: this.paciente.paciente.estadoEnfermedad,
+          idDoctorEncargado: this.paciente.paciente.idDoctorEncargado.idPersona
         }
       );
     }

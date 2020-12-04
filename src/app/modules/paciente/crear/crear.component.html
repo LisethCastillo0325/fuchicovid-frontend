@@ -210,12 +210,93 @@
                 </div>
               </div>
 
+              <hr>
+
+              <div class="card card-default collapsed-card">
+                <div class="card-header">
+                  <h3 class="card-title">Contactos de Emergencia</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <ng-container *ngIf="(relacionPacienteIntegrantes.length > 0); else DataNotFoundContactos">
+                    <table class="table  ">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Tipo</th>
+                          <th>Teléfono</th>
+                          <th>Email</th>
+                        </tr>
+                        </thead>
+                      <tbody>
+                        <tr  *ngFor="let contacto of contactoEmergencias ">
+                          <td>
+                            {{contacto.idIntegranteHogar.idPersona2.nombre}}
+                          </td>
+                          <td>
+                            {{contacto.idTipoContacto.tipoContacto}}
+                          </td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                    </table>
+                  </ng-container>
+                  <ng-template #DataNotFoundContactos>
+                    <div class="alert alert-info animated fadeIn" role="alert" >
+                      <strong>¡Ups!</strong> No se encontraron contactos de emergencia registrados.
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="card card-default collapsed-card">
+                <div class="card-header">
+                  <h3 class="card-title">Integrantes Hogar</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <ng-container *ngIf="(relacionPacienteIntegrantes.length > 0); else DataNotFoundIntegrantes">
+                    <table  class="table  ">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Parentesco</th>
+                        </tr>
+                        </thead>
+                      <tbody>
+                        <tr  *ngFor="let integrante of relacionPacienteIntegrantes ">
+                          <td>
+                            {{integrante.idIntegrante.idPersona2.nombre}}
+                          </td>
+                          <td>
+                            {{integrante.idParentesco.nombre}}
+                          </td>
+                        </tr>
+                    </table>
+                  </ng-container>
+                  <ng-template #DataNotFoundIntegrantes>
+                    <div class="alert alert-info animated fadeIn" role="alert" >
+                      <strong>¡Ups!</strong> No se encontraron integrantes de hogar registrados.
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
               <button class="btn btn-primary float-right" type="submit">Grabar</button>
             </div>
           </form>
+
         </div>
         <!-- /.card -->
       </div>
